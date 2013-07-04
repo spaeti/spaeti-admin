@@ -1,2 +1,2 @@
-spaeti-config
+spaeti-admin
 =============
