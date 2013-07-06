@@ -1,8 +1,38 @@
 doctype 5
-html
+html(ng-app="myApp")
     head
         title= title
-        link(rel='stylesheet', href='./stylesheets/style.css')
-        script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js')
+        block styles
+            link(rel='stylesheet', href='./css/bootstrap.min.css')
+            link(rel='stylesheet', href='./css/font-awesome.min.css')
+            link(rel='stylesheet', href='./css/style.css')
+        block scripts
+            script(src='./lib/angular.min.js')
+            script(src='./js/app.js')
+            script(src='./js/controllers.js')
+            script(src='./js/filters.js')
+            script(src='./js/directives.js')
+            script(src='./js/services.js')
     body
-        block content
+        .navbar.navbar-fixed-top
+            .navbar-inner
+                img(src="./img/spaetilogo.png")
+                a.brand #{title}
+        .container-fluid
+            .row-fluid
+                .span2
+                    block nav
+                        nav#mainNav
+                            ul.nav.nav-tabs.nav-stacked
+                                li
+                                    a(href="#")
+                                        i.icon-dashboard
+                                        |   Dashboard
+                                li
+                                    a(href="#")
+                                        i.icon-list-alt
+                                        |   Spätis
+                .span10
+                    block content
+        script(src="http://code.jquery.com/jquery.js")
+        script(src="./lib/bootstrap.min.js")

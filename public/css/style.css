@@ -1,0 +1,22 @@
+.navbar-inner img{
+    float: left;
+    margin: 5px;
+}
+
+body {
+    padding: 60px 0;
+    margin: 0;
+}
+
+input[type=text]{
+    vertical-align: inherit;
+}
+
+.hidden{
+    display: none;
+    visibility: hidden;
+}
+
+.btn{
+    margin-left: 4px;
+}

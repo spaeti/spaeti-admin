@@ -1,5 +1,61 @@
 extends layout
 
 block content
-    h1= title
-    p Welcome to #{title}
+    div(ng-controller="SpaetiListCtrl")
+        div#myModal.modal.hide(tabindex="-1", role="dialog")
+            .modal-header
+                button.close(data-dismiss="modal") x
+                h3 Achtung
+            .modal-body
+                | Willst du diesen Späti wirklich wirklich wirklich löschen?
+            .modal-footer
+                button.btn(data-dismiss="modal") Lieber nicht.
+                button.btn.btn-danger(data-dismiss="modal", ng-click="remove()") Ja, jetzt löschen.
+        .row-fluid
+            .span4
+                input(type="text", ng-model="search", placeholder="Filter")
+            .span5
+                | Sort
+                select(ng-model="orderProp")
+                    option(ng-selected = "true", value="name") Alphabetical
+                    option(value="address") By Adress
+            .span3
+                button.btn.btn-success
+                    i.icon-plus
+                    |  Späti hinzufügen
+        p {{spaetis.length}} Spätis
+        table.table
+            tr
+                th Name
+                th Adresse
+                th Geo(lat/lng)
+                th Details
+                th Remove
+            tr(ng-repeat="spaeti in spaetis | filter:search | orderBy:orderProp")
+                td
+                    span(ng-hide="spaeti.edit.name") {{spaeti.name}}
+                    button.btn.btn-mini(ng-hide="spaeti.edit.name", ng-click="edit(spaeti,'name')")
+                        i.icon-pencil
+                    input(type="text", ng-show="spaeti.edit.name", ng-model="spaeti.name")
+                    button.btn.btn-success.btn-small(ng-show="spaeti.edit.name", ng-click="update(spaeti,'name')")
+                        i.icon-ok
+                    button.btn.btn-small(ng-show="spaeti.edit.name", ng-click="cancelEdit(spaeti,'name')")
+                        i.icon-reply
+                td
+                    span(ng-hide="spaeti.edit.street") {{spaeti.location.street}}
+                    button.btn.btn-mini(ng-hide="spaeti.edit.street", ng-click="edit(spaeti,'street')")
+                        i.icon-pencil
+                    input(type="text", ng-show="spaeti.edit.street", ng-model="spaeti.location.street")
+                    button.btn.btn-success.btn-small(ng-show="spaeti.edit.street", ng-click="update(spaeti,'street')")
+                        i.icon-ok
+                    button.btn.btn-small(ng-show="spaeti.edit.street", ng-click="cancelEdit(spaeti,'street')")
+                        i.icon-reply
+                td {{spaeti.location.lat + "/" + spaeti.location.lng}}
+                td
+                    button.btn.btn-info
+                        i.icon-pencil
+                        |  Details
+                td
+                    button.btn.btn-danger(href="#myModal", ng-click="remove(spaeti)",role="button", class="btn", data-toggle="modal")
+                        i.icon-trash
+                        |  Remove
