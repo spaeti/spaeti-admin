@@ -1,0 +1,48 @@
+div(ng-controller="SpaetiAddCtrl")
+    h2 Neuer Späti
+    br
+    form(ng-submit="add()")
+        .row-fluid
+            .span2.offset1
+                | Name
+            .span9
+                input(type="text", ng-model="spaeti.name")
+        h3 Ortsdaten
+        .row-fluid
+            .span2.offset1
+                | Adresse
+            .span9
+                input(type="text", ng-model="spaeti.location.street")
+        .row-fluid
+            .span2.offset1
+                | Latitude
+            .span9
+                input(type="text", ng-model="spaeti.location.lat")
+        .row-fluid
+            .span2.offset1
+                | Longitude
+            .span9
+                input(type="text", ng-model="spaeti.location.lng")
+        h3 Angebote
+        .row-fluid
+            .span2.offset1
+                | Pizza
+            .span9
+                input(type="checkbox", ng-model="spaeti.assortment.pizza")
+        .row-fluid
+            .span2.offset1
+                | Kondome
+            .span9
+                input(type="checkbox", ng-model="spaeti.assortment.condoms")
+        .row-fluid
+            .span2.offset1
+                | Zeitschriften
+            .span9
+                input(type="checkbox", ng-model="spaeti.assortment.newspapers")
+        .row-fluid
+            .span2.offset1
+                | Chips
+            .span9
+                input(type="checkbox", ng-model="spaeti.assortment.chips")
+
+        button.btn.btn-large.btn-success.pull-right(type="submit") Hinzufügen

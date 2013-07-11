@@ -53,20 +53,11 @@ angular.module('myApp.controllers', [])
       spaeti.edit[attr] = false;
     };
   })
-  .controller('SpaetiDetailCtrl', function ($scope, $http) {
-    function update() {
-      $http.get("http://spaeti.pavo.uberspace.de/dev/spaeti/")
+  .controller('SpaetiAddCtrl', function ($scope, $http) {
+    function add() {
+      $http.post("http://spaeti.pavo.uberspace.de/dev/spaeti/", $scope.spaeti)
         .success(function (data) {
-          $scope.spaetis = data;
+              // yes
         });
     }
-
-    update();
-
-    $scope.remove = function (spaeti) {
-      $http.delete("http://spaeti.pavo.uberspace.de/dev/spaeti/" + spaeti._id)
-        .success(update).error(function (data, status) {
-          alert("Delete failed:" + status);
-        });
-    };
   });

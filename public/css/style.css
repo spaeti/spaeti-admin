@@ -1,4 +1,4 @@
-.navbar-inner img{
+.navbar-inner img {
     float: left;
     margin: 5px;
 }
@@ -8,15 +8,27 @@ body {
     margin: 0;
 }
 
-input[type=text]{
+input[type=text] {
     vertical-align: inherit;
 }
 
-.hidden{
+.hidden {
     display: none;
     visibility: hidden;
 }
 
-.btn{
+.yellow {
+    color: #E9DC51;
+}
+
+.btn {
     margin-left: 4px;
+}
+
+.smaller {
+    width: 150px;
+}
+
+.min600 {
+    min-width: 800px;
 }
