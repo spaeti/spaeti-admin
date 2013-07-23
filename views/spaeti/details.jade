@@ -1,0 +1,252 @@
+div.well
+  div#deleteModal.modal.hide(tabindex="-1", role="dialog")
+    .modal-header
+      button.close(data-dismiss="modal") x
+      h3 Achtung
+    .modal-body
+      | Willst du diesen Späti wirklich wirklich wirklich löschen? Diese Aktion ist nicht umkehrbar.
+    .modal-footer
+      button.btn(data-dismiss="modal") Lieber nicht.
+      button.btn.btn-danger(data-dismiss="modal", ng-click="remove()") Ja, jetzt löschen.
+  .row-fluid
+    .span6
+      form(ng-submit="update()", name="generalForm")
+        h3
+          | Allgemein
+          button.btn.btn-small.align-tb(type="button", ng-hide="editGeneral", ng-click="editGeneral = true; edit('name');")
+            i.icon-pencil
+          button.btn.btn-small.align-tb(type="button", ng-show="editGeneral", ng-click="editGeneral = false; reset('name');")
+            i.icon-remove
+          button.btn.btn-small.align-tb.btn-success(type="submit", ng-disabled="generalForm.$invalid",
+          ng-show="editGeneral", ng-click="editGeneral = false")
+            i.icon-ok
+        div(ng-show="editGeneral")
+          .row-fluid
+            .span2.offset1
+              strong(style="color: {{generalForm.name.$dirty && generalForm.name.$error.required | redIfTrue}};") Name
+            .span9
+              input(type="text", name="name", ng-model="spaeti.name", required)
+        div(ng-hide="editGeneral")
+          .row-fluid
+            .span2.offset1
+              strong Name
+            .span9
+              span {{spaeti.name}}
+      form(ng-submit="update()", name="assortmentForm")
+        h3
+          | Angebote
+          button.btn.btn-small.align-tb(type="button", ng-hide="editAssortment", ng-click="editAssortment = true; edit('assortment');")
+            i.icon-pencil
+          button.btn.btn-small.align-tb(type="button", ng-show="editAssortment", ng-click="editAssortment = false; reset('assortment');")
+            i.icon-remove
+          button.btn.btn-small.align-tb.btn-success(type="submit", ng-disabled="assortmentForm.$invalid",
+          ng-show="editAssortment", ng-click="editAssortment = false")
+            i.icon-ok
+        div(ng-show="editAssortment")
+          .row-fluid
+            .span4.offset1
+              | Pizza
+            .span7
+              input(type="checkbox", ng-model="spaeti.assortment.pizza")
+          .row-fluid
+            .span4.offset1
+              | Kondome
+            .span7
+              input(type="checkbox", ng-model="spaeti.assortment.condoms")
+          .row-fluid
+            .span4.offset1
+              | Zeitschriften
+            .span7
+              input(type="checkbox", ng-model="spaeti.assortment.newspapers")
+          .row-fluid
+            .span4.offset1
+              | Chips
+            .span7
+              input(type="checkbox", ng-model="spaeti.assortment.chips")
+        div(ng-hide="editAssortment")
+          .row-fluid
+            .span4.offset1
+              | Pizza
+            .span7
+              | {{spaeti.assortment.pizza | checkmark}}
+          .row-fluid
+            .span4.offset1
+              | Kondome
+            .span7
+              | {{spaeti.assortment.condoms | checkmark}}
+          .row-fluid
+            .span4.offset1
+              | Zeitschriften
+            .span7
+              | {{spaeti.assortment.newspapers | checkmark}}
+          .row-fluid
+            .span4.offset1
+              | Chips
+            .span7
+              | {{spaeti.assortment.chips | checkmark}}
+    .span6
+      form(ng-submit="update()", name="businessHoursForm")
+        h3
+          | Öffnungszeiten
+          button.btn.btn-small.align-tb(type="button", ng-hide="editBusinessHours", ng-click="editBusinessHours = true; edit('businessHours');")
+            i.icon-pencil
+          button.btn.btn-small.align-tb(type="button", ng-show="editBusinessHours", ng-click="editBusinessHours = false; reset('businessHours');")
+            i.icon-remove
+          button.btn.btn-small.align-tb.btn-success(type="submit", ng-disabled="businessHoursForm.$invalid",
+          ng-show="editBusinessHours", ng-click="editBusinessHours = false")
+            i.icon-ok
+        div(ng-show="editBusinessHours")
+          .row-fluid
+            .span2.offset1
+              | Montag
+            .span9
+              timepicker(ng-model="spaeti.businessHours.opened[0]", hour-step="hstep", minute-step="mstep", show-meridian="ismeridian")
+              | -
+              input.timeInput(spaeti-time="spaeti.businessHours.closed[0]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+          .row-fluid
+            .span2.offset1
+              | Dienstag
+            .span9
+              input.timeInput(spaeti-time="spaeti.businessHours.opened[1]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              | -
+              input.timeInput(spaeti-time="spaeti.businessHours.closed[1]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+          .row-fluid
+            .span2.offset1
+              | Mittwoch
+            .span9
+              input.timeInput(spaeti-time="spaeti.businessHours.opened[2]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              | -
+              input.timeInput(spaeti-time="spaeti.businessHours.closed[2]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+          .row-fluid
+            .span2.offset1
+              | Donnerstag
+            .span9
+              input.timeInput(spaeti-time="spaeti.businessHours.opened[3]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              | -
+              input.timeInput(spaeti-time="spaeti.businessHours.closed[3]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+          .row-fluid
+            .span2.offset1
+              | Freitag
+            .span9
+              input.timeInput(spaeti-time="spaeti.businessHours.opened[4]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              | -
+              input.timeInput(spaeti-time="spaeti.businessHours.closed[4]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+          .row-fluid
+            .span2.offset1
+              | Samstag
+            .span9
+              input.timeInput(spaeti-time="spaeti.businessHours.opened[5]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              | -
+              input.timeInput(spaeti-time="spaeti.businessHours.closed[5]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+          .row-fluid
+            .span2.offset1
+              | Sonntags
+            .span9
+              input.timeInput(spaeti-time="spaeti.businessHours.opened[6]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              | -
+              input.timeInput(spaeti-time="spaeti.businessHours.closed[6]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+        div(ng-hide="editBusinessHours")
+          .row-fluid.row-margin
+            .span2.offset1
+              | Montag
+            .span9
+              | {{spaeti.businessHours.opened[0]}} - {{spaeti.businessHours.closed[0]}}
+          .row-fluid.row-margin
+            .span2.offset1
+              | Dienstag
+            .span9
+              | {{spaeti.businessHours.opened[1]}} - {{spaeti.businessHours.closed[1]}}
+          .row-fluid.row-margin
+            .span2.offset1
+              | Mittwoch
+            .span9
+              | {{spaeti.businessHours.opened[2]}} - {{spaeti.businessHours.closed[2]}}
+          .row-fluid.row-margin
+            .span2.offset1
+              | Donnerstag
+            .span9
+              | {{spaeti.businessHours.opened[3]}} - {{spaeti.businessHours.closed[3]}}
+          .row-fluid.row-margin
+            .span2.offset1
+              | Freitag
+            .span9
+              | {{spaeti.businessHours.opened[4]}} - {{spaeti.businessHours.closed[4]}}
+          .row-fluid.row-margin
+            .span2.offset1
+              | Samstag
+            .span9
+              | {{spaeti.businessHours.opened[5]}} - {{spaeti.businessHours.closed[5]}}
+          .row-fluid.row-margin
+            .span2.offset1
+              | Sonntags
+            .span9
+              | {{spaeti.businessHours.opened[6]}} - {{spaeti.businessHours.closed[6]}}
+  form(ng-submit="update()", name="locationForm")
+    h3
+      | Ortsdaten
+      button.btn.btn-small.align-tb(type="button", ng-hide="editLocation", ng-click="editLocation = true; edit('location');")
+        i.icon-pencil
+      button.btn.btn-small.align-tb(type="button", ng-show="editLocation", ng-click="editLocation = false; reset('location');")
+        i.icon-remove
+      button.btn.btn-small.align-tb.btn-success(type="submit", ng-disabled="locationForm.$invalid",
+      ng-show="editLocation", ng-click="editLocation = false")
+        i.icon-ok
+    .row-fluid
+      .span6
+        div(ng-show="editLocation")
+          .row-fluid
+            .span2.offset1
+              span(style="color: {{newSpaetiForm.address.$dirty && newSpaetiForm.address.$error.required | redIfTrue}};")
+                | Adresse
+            .span8
+              .input-append
+                input(type="text", name="address", ng-model="spaeti.location.street", required)
+                button.btn(type="button", ng-click="codeAddress()")
+                  i.icon-map-marker.icon-large.text-error
+          .row-fluid
+            .span2.offset1
+              span(style="color: {{newSpaetiForm.latitude.$dirty && newSpaetiForm.latitude.$error.required | redIfTrue}};")
+                | Latitude
+            .span9
+              input(type="text", name="latitude", ng-model="spaeti.location.lat", required)
+          .row-fluid
+            .span2.offset1
+              span(style="color: {{newSpaetiForm.longitude.$dirty && newSpaetiForm.longitude.$error.required | redIfTrue}};")
+                | Longitude
+            .span9
+              input(type="text", name="longitude", ng-model="spaeti.location.lng", required)
+        div(ng-hide="editLocation")
+          .row-fluid
+            .span2.offset1
+              span
+                | Adresse
+            .span8
+              | {{spaeti.location.street}}
+          .row-fluid
+            .span2.offset1
+              span
+                | Latitude
+            .span9
+              | {{spaeti.location.lat}}
+          .row-fluid
+            .span2.offset1
+              span
+                | Longitude
+            .span9
+              | {{spaeti.location.lng}}
+      .span6
+        #map-canvas
+  .form-actions
+    button.btn.btn-large.btn-danger.pull-left(href="#deleteModal", type="button", data-toggle="modal")
+      i.icon-trash
+      | Löschen
+    .pull-right(ng-hide="spaeti.published")
+      span.muted Dieser Späti ist noch nicht bestätigt und kann in der App nicht gesehen werden.
+      button.btn.btn-large.btn-success(type="button", ng-hide="spaeti.published", ng-click="spaeti.published = true; update();")
+        i.icon-check
+        | Bestätigen
+    .pull-right(ng-show="spaeti.published")
+      span.muted Dieser Späti ist bestätigt und kann in der App gesehen werden.
+      button.btn.btn-large.btn-inverse(type="button", ng-click="spaeti.published = false; update();")
+        i.icon-check-empty
+        | Verstecken

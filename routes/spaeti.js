@@ -10,3 +10,7 @@ exports.list = function(req, res){
 exports.add = function(req, res){
     res.render('spaeti/new');
 };
+
+exports.details = function(req, res){
+    res.render('spaeti/details');
+};

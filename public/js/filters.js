@@ -17,7 +17,7 @@ angular.module('myApp.filters', []).
         };
     }).filter('published',function () {
         return function (input) {
-            return input ? 'icon-ok-sign' : 'icon-certificate yellow';
+            return input ? 'icon-ok-sign text-success' : 'icon-certificate text-warning';
         };
     }).filter('publishedButtonClass',function () {
         return function (input) {
@@ -31,4 +31,8 @@ angular.module('myApp.filters', []).
         return function (input) {
             return input ? 'icon-pencil' : 'icon-check';
         };
-    });
+    }).filter('redIfTrue', function () {
+    return function (input) {
+      return input ? 'red' : 'black';
+    };
+  });

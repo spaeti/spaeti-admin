@@ -1,67 +1,81 @@
-div.min600(ng-controller="SpaetiListCtrl")
-    div#deleteModal.modal.hide(tabindex="-1", role="dialog")
-        .modal-header
-            button.close(data-dismiss="modal") x
-            h3 Achtung
-        .modal-body
-            | Willst du diesen Späti wirklich wirklich wirklich löschen?
-        .modal-footer
-            button.btn(data-dismiss="modal") Lieber nicht.
-            button.btn.btn-danger(data-dismiss="modal", ng-click="remove()") Ja, jetzt löschen.
-    .row-fluid
-        .span4
-            .input-prepend
-                .add-on
-                    i.icon-search
-                input(type="text", ng-model="search", placeholder="Filter")
-        .span5
-            .input-prepend
-                .add-on
-                    i.icon-sort-by-attributes
-                select(ng-model="orderProp")
-                    option(ng-selected = "true", value="name") Alphabetical
-                    option(value="address") By Adress
-        .span3
-            a.btn.btn-success(href="#/add")
-                i.icon-plus
-                | Späti hinzufügen
-    p {{spaetis.length}} Spätis
-    table.table
-        tr
-            th
-            th Name
-            th Addresse
-            th Besitzer
-            th Details
-            th Remove
-        tr(ng-repeat="spaeti in spaetis | filter:search | orderBy:orderProp")
-            td
-                i(class="{{spaeti.published | published}}")
-            td
-                span(ng-hide="spaeti.edit.name") {{spaeti.name}}
-                button.btn.btn-link.btn-small.pull-right(ng-hide="spaeti.edit.name", ng-click="edit(spaeti,'name')")
-                    i.icon-pencil
-                input.smaller(type="text", ng-show="spaeti.edit.name", ng-model="spaeti.name")
-                button.btn.btn-success.btn-small.pull-right(ng-show="spaeti.edit.name", ng-click="update(spaeti,'name')")
-                    i.icon-ok
-                button.btn.btn-link.btn-small.pull-right(ng-show="spaeti.edit.name", ng-click="cancelEdit(spaeti,'name')")
-                    i.icon-remove
-            td
-                span(ng-hide="spaeti.edit.street") {{spaeti.location.street}}
-                button.btn.btn-link.btn-small.pull-right(ng-hide="spaeti.edit.street", ng-click="edit(spaeti,'street')")
-                    i.icon-pencil
-                input.smaller(type="text", ng-show="spaeti.edit.street", ng-model="spaeti.location.street")
-                button.btn.btn-success.btn-small.pull-right(ng-show="spaeti.edit.street", ng-click="update(spaeti,'street')")
-                    i.icon-ok
-                button.btn.btn-link.btn-small.pull-right(ng-show="spaeti.edit.street", ng-click="cancelEdit(spaeti,'street')")
-                    i.icon-remove
-            td
-                | {{spaeti.markedByOwner | owner}}
-            td
-                button.btn(class="{{spaeti.published | publishedButtonClass}}")
-                    i(class="{{spaeti.published | publishedButtonIcon}}")
-                    | {{spaeti.published | publishedButtonName}}
-            td
-                button.btn.btn-danger(href="#deleteModal", ng-click="remove(spaeti)",role="button", class="btn", data-toggle="modal")
-                    i.icon-trash
-                    | Remove
+.alert.alert-success(ng-show="flash.success")
+  button(type="button", class="close", ng-click="flash.success = '';") &times;
+  span {{flash.success}}
+.alert.alert-error(ng-show="flash.error")
+  button(type="button", class="close", ng-click="flash.error = '';") &times;
+  span {{flash.error}}
+.alert(ng-show="flash.deleted")
+  button(type="button", class="close", ng-click="flash.deleted = '';") &times;
+  span Späti gelöscht
+  button.btn.btn-link(ng-click="restoreLastDeletedSpaeti()") Undo
+div.min600.well
+  div#deleteModal.modal.hide(tabindex="-1", role="dialog")
+    .modal-header
+      button.close(data-dismiss="modal") x
+      h3 Achtung
+    .modal-body
+      | Willst du diesen Späti wirklich wirklich wirklich löschen?
+    .modal-footer
+      button.btn(data-dismiss="modal") Lieber nicht.
+      button.btn.btn-danger(data-dismiss="modal", ng-click="remove()") Ja, jetzt löschen.
+  .row-fluid
+    .span10
+      form.form-search
+        .input-prepend
+          .add-on
+            i.icon-search
+          input.search-query(type="text", ng-model="search", placeholder="Filter")
+    .span2
+      a.btn.btn-success.span12(href="#/add")
+        i.icon-plus
+        | Neuer Späti
+  p {{spaetis.length}} Spätis
+  table.table
+    tr
+      th
+        i.icon-eye-open
+      th
+        a.order(ng-click="orderProp = 'name'") Name
+      th
+        a.order(ng-click="orderProp = 'location.street'") Adresse
+      th
+        i.icon-key
+      th Details
+      th Löschen
+    tr(ng-repeat="spaeti in spaetis | filter:search | orderBy:orderProp")
+      td
+        i(class="{{spaeti.published | published}}")
+      td
+        span(ng-hide="spaeti.edit.name") {{spaeti.name}}
+        button.btn.btn-link.btn-small.pull-right(ng-hide="spaeti.edit.name",
+        ng-click="spaeti.edit.name = true; spaeti.old.name = spaeti.name")
+          i.icon-pencil
+        input.smaller(type="text", ng-show="spaeti.edit.name", ng-model="spaeti.name")
+        button.btn.btn-success.btn-small.pull-right(ng-show="spaeti.edit.name",
+        ng-click="update(spaeti); spaeti.edit.name = false;")
+          i.icon-ok
+        button.btn.btn-link.btn-small.pull-right(ng-show="spaeti.edit.name",
+        ng-click="spaeti.edit.name = false; spaeti.name = spaeti.old.name;")
+          i.icon-remove
+      td
+        span(ng-hide="spaeti.edit.street") {{spaeti.location.street}}
+        button.btn.btn-link.btn-small.pull-right(ng-hide="spaeti.edit.street",
+        ng-click="spaeti.edit.street = true; spaeti.old.street = spaeti.location.street")
+          i.icon-pencil
+        input.smaller(type="text", ng-show="spaeti.edit.street", ng-model="spaeti.location.street")
+        button.btn.btn-success.btn-small.pull-right(ng-show="spaeti.edit.street",
+        ng-click="update(spaeti); spaeti.edit.street = false;")
+          i.icon-ok
+        button.btn.btn-link.btn-small.pull-right(ng-show="spaeti.edit.street",
+        ng-click="spaeti.edit.street = false; spaeti.location.street = spaeti.old.street;")
+          i.icon-remove
+      td
+        | {{spaeti.markedByOwner | owner}}
+      td
+        a.btn(href="#/spaeti/{{spaeti._id}}",class="{{spaeti.published | publishedButtonClass}}")
+          i(class="{{spaeti.published | publishedButtonIcon}}")
+          | {{spaeti.published | publishedButtonName}}
+      td
+        button.btn.btn-danger(href="#deleteModal", ng-click="remove(spaeti)", role="button", data-toggle="modal")
+          i.icon-trash
+          | Löschen
