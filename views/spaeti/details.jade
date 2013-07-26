@@ -85,12 +85,12 @@ div.well
             .span7
               | {{spaeti.assortment.chips | checkmark}}
     .span6
-      form(ng-submit="update()", name="businessHoursForm")
+      form(ng-submit="convertBusinessHours(); update();", name="businessHoursForm")
         h3
           | Öffnungszeiten
-          button.btn.btn-small.align-tb(type="button", ng-hide="editBusinessHours", ng-click="editBusinessHours = true; edit('businessHours');")
+          button.btn.btn-small.align-tb(type="button", ng-hide="editBusinessHours", ng-click="editBusinessHours = true; edit('businessHoursText');")
             i.icon-pencil
-          button.btn.btn-small.align-tb(type="button", ng-show="editBusinessHours", ng-click="editBusinessHours = false; reset('businessHours');")
+          button.btn.btn-small.align-tb(type="button", ng-show="editBusinessHours", ng-click="editBusinessHours = false; reset('businessHoursText');")
             i.icon-remove
           button.btn.btn-small.align-tb.btn-success(type="submit", ng-disabled="businessHoursForm.$invalid",
           ng-show="editBusinessHours", ng-click="editBusinessHours = false")
@@ -100,87 +100,87 @@ div.well
             .span2.offset1
               | Montag
             .span9
-              timepicker(ng-model="spaeti.businessHours.opened[0]", hour-step="hstep", minute-step="mstep", show-meridian="ismeridian")
+              input.timeInput(ng-model="spaeti.businessHoursText.opened[0]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
               | -
-              input.timeInput(spaeti-time="spaeti.businessHours.closed[0]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.closed[0]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
           .row-fluid
             .span2.offset1
               | Dienstag
             .span9
-              input.timeInput(spaeti-time="spaeti.businessHours.opened[1]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.opened[1]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
               | -
-              input.timeInput(spaeti-time="spaeti.businessHours.closed[1]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.closed[1]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
           .row-fluid
             .span2.offset1
               | Mittwoch
             .span9
-              input.timeInput(spaeti-time="spaeti.businessHours.opened[2]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.opened[2]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
               | -
-              input.timeInput(spaeti-time="spaeti.businessHours.closed[2]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.closed[2]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
           .row-fluid
             .span2.offset1
               | Donnerstag
             .span9
-              input.timeInput(spaeti-time="spaeti.businessHours.opened[3]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.opened[3]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
               | -
-              input.timeInput(spaeti-time="spaeti.businessHours.closed[3]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.closed[3]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
           .row-fluid
             .span2.offset1
               | Freitag
             .span9
-              input.timeInput(spaeti-time="spaeti.businessHours.opened[4]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.opened[4]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
               | -
-              input.timeInput(spaeti-time="spaeti.businessHours.closed[4]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.closed[4]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
           .row-fluid
             .span2.offset1
               | Samstag
             .span9
-              input.timeInput(spaeti-time="spaeti.businessHours.opened[5]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.opened[5]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
               | -
-              input.timeInput(spaeti-time="spaeti.businessHours.closed[5]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.closed[5]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
           .row-fluid
             .span2.offset1
               | Sonntags
             .span9
-              input.timeInput(spaeti-time="spaeti.businessHours.opened[6]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.opened[6]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
               | -
-              input.timeInput(spaeti-time="spaeti.businessHours.closed[6]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/', required)
+              input.timeInput(ng-model="spaeti.businessHoursText.closed[6]", type="text", ng-pattern='/[0-2]?\\d:[0-5]\\d/')
         div(ng-hide="editBusinessHours")
           .row-fluid.row-margin
             .span2.offset1
               | Montag
             .span9
-              | {{spaeti.businessHours.opened[0]}} - {{spaeti.businessHours.closed[0]}}
+              | {{spaeti.businessHoursText.opened[0]}} - {{spaeti.businessHoursText.closed[0]}}
           .row-fluid.row-margin
             .span2.offset1
               | Dienstag
             .span9
-              | {{spaeti.businessHours.opened[1]}} - {{spaeti.businessHours.closed[1]}}
+              | {{spaeti.businessHoursText.opened[1]}} - {{spaeti.businessHoursText.closed[1]}}
           .row-fluid.row-margin
             .span2.offset1
               | Mittwoch
             .span9
-              | {{spaeti.businessHours.opened[2]}} - {{spaeti.businessHours.closed[2]}}
+              | {{spaeti.businessHoursText.opened[2]}} - {{spaeti.businessHoursText.closed[2]}}
           .row-fluid.row-margin
             .span2.offset1
               | Donnerstag
             .span9
-              | {{spaeti.businessHours.opened[3]}} - {{spaeti.businessHours.closed[3]}}
+              | {{spaeti.businessHoursText.opened[3]}} - {{spaeti.businessHoursText.closed[3]}}
           .row-fluid.row-margin
             .span2.offset1
               | Freitag
             .span9
-              | {{spaeti.businessHours.opened[4]}} - {{spaeti.businessHours.closed[4]}}
+              | {{spaeti.businessHoursText.opened[4]}} - {{spaeti.businessHoursText.closed[4]}}
           .row-fluid.row-margin
             .span2.offset1
               | Samstag
             .span9
-              | {{spaeti.businessHours.opened[5]}} - {{spaeti.businessHours.closed[5]}}
+              | {{spaeti.businessHoursText.opened[5]}} - {{spaeti.businessHoursText.closed[5]}}
           .row-fluid.row-margin
             .span2.offset1
               | Sonntags
             .span9
-              | {{spaeti.businessHours.opened[6]}} - {{spaeti.businessHours.closed[6]}}
+              | {{spaeti.businessHoursText.opened[6]}} - {{spaeti.businessHoursText.closed[6]}}
   form(ng-submit="update()", name="locationForm")
     h3
       | Ortsdaten

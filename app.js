@@ -105,7 +105,7 @@ app.use(function(req,res,next){
 app.use(app.router);
 
 // development only
-if ('development' == app.get('env')) {
+if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
 

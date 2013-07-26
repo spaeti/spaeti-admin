@@ -31,6 +31,32 @@ function makeCodeAddress($scope, geocoder, map) {
   };
 }
 
+function timeToInt(businessHours) {
+  var i, opened = [], closed = [];
+  for (i = businessHours.opened.length - 1; i >= 0; i--) {
+    opened[i] = parseInt(businessHours.opened[i].replace(":", ""), 10);
+    closed[i] = parseInt(businessHours.closed[i].replace(":", ""), 10);
+  }
+  return {
+    opened: opened,
+    closed: closed
+  };
+}
+
+function intToTime(businessHours){
+  var i, opened = [], closed = [], open, close;
+  for (i = businessHours.opened.length - 1; i >= 0; i--) {
+    open = businessHours.opened[i];
+    close = businessHours.closed[i];
+    opened[i] = Math.round(open / 100) + ":" + (open - Math.round(open / 100) * 100);
+    closed[i] = Math.round(close / 100) + ":" + (close - Math.round(close / 100) * 100);
+  }
+  return {
+    opened: opened,
+    closed: closed
+  };
+}
+
 angular.module('myApp.controllers', [])
   .controller('NavCtrl',function ($scope, $location) {
     $scope.nav = function (page) {
@@ -46,9 +72,18 @@ angular.module('myApp.controllers', [])
     }
 
     $scope.flash = {
-      success : flash.success(),
-      error : flash.error()
+      success: [],
+      error: [],
+      deleted : []
     };
+
+    if(flash.success()){
+      $scope.flash.success.push(flash.success());
+    }
+
+    if(flash.error()){
+      $scope.flash.error.push(flash.error());
+    }
 
     refresh();
 
@@ -61,7 +96,7 @@ angular.module('myApp.controllers', [])
         .success(function () {
           $scope.lastDeletedSpaeti = $scope.spaetiToDelete;
           refresh();
-          $scope.flash.deleted = "Späti gelöscht!";
+          $scope.flash.deleted.push("Späti gelöscht!");
         }).error(function (data, status) {
           window.alert("Delete failed:" + status);
         });
@@ -69,9 +104,8 @@ angular.module('myApp.controllers', [])
 
     $scope.restoreLastDeletedSpaeti = function () {
       $http.post("http://spaeti.pavo.uberspace.de/dev/spaeti/", $scope.lastDeletedSpaeti)
-        .success(function(){
-          $scope.flash.deleted = "";
-          $scope.flash.success = "Späti neu erstellt.";
+        .success(function () {
+          $scope.flash.success.push("Späti neu erstellt.");
           refresh();
         }).error(function (data, status) {
           window.alert("Creation failed:" + status);
@@ -85,7 +119,7 @@ angular.module('myApp.controllers', [])
         });
     };
   })
-  .controller('SpaetiAddCtrl', function ($scope, $http,flash) {
+  .controller('SpaetiAddCtrl', function ($scope, $http, flash) {
     $scope.spaeti = {
       location: {
         street: "",
@@ -138,12 +172,7 @@ angular.module('myApp.controllers', [])
     });
 
     $scope.add = function () {
-      var i;
-      for (i = $scope.spaeti.businessHours.opened.length - 1; i >= 0; i--) {
-        $scope.spaeti.businessHours.opened[i] = parseInt($scope.spaeti.businessHours.opened[i].replace(":", ""), 10);
-        $scope.spaeti.businessHours.closed[i] = parseInt($scope.spaeti.businessHours.closed[i].replace(":", ""), 10);
-      }
-
+      $scope.spaeti.businessHours = timeToInt($scope.spaeti.businessHours);
       $http.post("http://spaeti.pavo.uberspace.de/dev/spaeti/", $scope.spaeti)
         .success(function () {
           flash.success("Neuer Späti erzeugt.");
@@ -160,6 +189,8 @@ angular.module('myApp.controllers', [])
       .success(function (data) {
         $scope.spaeti = data;
 
+        $scope.spaeti.businessHoursText = intToTime($scope.spaeti.businessHours);
+
         map = new google.maps.Map(document.getElementById("map-canvas"), {
           center: new google.maps.LatLng($scope.spaeti.location.lat, $scope.spaeti.location.lng),
           zoom: 14,
@@ -171,7 +202,11 @@ angular.module('myApp.controllers', [])
         marker = new google.maps.Marker({
           position: map.getCenter(),
           map: map,
-          draggable: true
+          draggable: false
+        });
+
+        $scope.$watch('editLocation',function(newVal){
+          marker.setDraggable(newVal);
         });
 
         codeLatLng = makeCodeLatLng($scope, geocoder);
@@ -198,6 +233,10 @@ angular.module('myApp.controllers', [])
         }).error(function (data, status) {
           window.alert("Delete failed:" + status);
         });
+    };
+
+    $scope.convertBusinessHours = function(){
+      $scope.spaeti.businessHours = timeToInt($scope.spaeti.businessHoursText);
     };
 
     $scope.old = {};

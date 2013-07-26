@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectRootManager" version="2" />
-  <component name="RegexUtilComponent" text="20:30" flags="0" regex="[0-2]?\d:[0-5]\d" mode="0" />
+  <component name="RegexUtilComponent" text="20:30" flags="0" regex="([0-2]?\d:[0-5]\d)?" mode="0" />
 </project>
 

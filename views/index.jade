@@ -8,7 +8,6 @@ html(ng-app="myApp")
       link(rel='stylesheet', href='./css/style.css')
     block scripts
       script(src='./lib/angular.min.js')
-      script(src='./lib/ui-bootstrap-0.4.0.min.js')
       script(src='./js/app.js')
       script(src='./js/controllers.js')
       script(src='./js/filters.js')
@@ -16,7 +15,7 @@ html(ng-app="myApp")
       script(src='./js/services.js')
       script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDri1Tr1SmCfZM4sOpAkzHJ0-YZQ_5iqDw&sensor=false")
   body
-    .navbar.navbar-fixed-top(ng-controller="NavCtrl")
+    .navbar.navbar-static-top(ng-controller="NavCtrl")
       .navbar-inner
         .container
           a.brand #{title}

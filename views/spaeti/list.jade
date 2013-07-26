@@ -1,12 +1,12 @@
-.alert.alert-success(ng-show="flash.success")
-  button(type="button", class="close", ng-click="flash.success = '';") &times;
-  span {{flash.success}}
-.alert.alert-error(ng-show="flash.error")
-  button(type="button", class="close", ng-click="flash.error = '';") &times;
-  span {{flash.error}}
-.alert(ng-show="flash.deleted")
-  button(type="button", class="close", ng-click="flash.deleted = '';") &times;
-  span Späti gelöscht
+.alert.alert-success(ng-repeat="message in flash.success")
+  button(type="button", class="close", data-dismiss="alert") &times;
+  span {{message}}
+.alert.alert-error(ng-repeat="message in flash.error")
+  button(type="button", class="close", data-dismiss="alert") &times;
+  span {{message}}
+.alert(ng-repeat="message in flash.deleted")
+  button(type="button", class="close", data-dismiss="alert") &times;
+  span {{message}}
   button.btn.btn-link(ng-click="restoreLastDeletedSpaeti()") Undo
 div.min600.well
   div#deleteModal.modal.hide(tabindex="-1", role="dialog")
